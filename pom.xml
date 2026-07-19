@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>devJoint</artifactId>
+    <artifactId>MovieReviewApplication</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>devJoint</name>
-    <description>devJoint</description>
+    <name>MovieReviewApplication</name>
+    <description>MovieReviewApplication</description>
     <url/>
     <licenses>
         <license/>
@@ -73,6 +73,19 @@
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.6.3</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -92,6 +105,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
                 <executions>
                     <execution>
                         <id>default-compile</id>
@@ -100,10 +114,17 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
+                            <source>21</source>
+                            <target>21</target>
                             <annotationProcessorPaths>
                                 <path>
                                     <groupId>org.projectlombok</groupId>
                                     <artifactId>lombok</artifactId>
+                                </path>
+                                <path>
+                                    <groupId>org.mapstruct</groupId>
+                                    <artifactId>mapstruct-processor</artifactId>
+                                    <version>1.6.3</version>
                                 </path>
                             </annotationProcessorPaths>
                         </configuration>
