@@ -3,6 +3,7 @@ package com.example.moviewreviewapplication.controller;
 import com.example.moviewreviewapplication.dto.MovieRequestDTO;
 import com.example.moviewreviewapplication.dto.MovieResponseDTO;
 import com.example.moviewreviewapplication.service.MovieService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,12 +32,14 @@ public class MovieController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMovie(@PathVariable Long id) {
         movieService.deleteMovie(id);
 
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public MovieResponseDTO createNewMovie(@RequestBody MovieRequestDTO movie) {
         return movieService.createMovie(movie);
 

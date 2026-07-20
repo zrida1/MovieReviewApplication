@@ -4,6 +4,7 @@ package com.example.moviewreviewapplication.controller;
 import com.example.moviewreviewapplication.dto.UserRequestDTO;
 import com.example.moviewreviewapplication.dto.UserResponseDTO;
 import com.example.moviewreviewapplication.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,15 +33,18 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
 
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDTO createUser(@RequestBody UserRequestDTO user) {
         return userService.createUser(user);
 
     }
 }
+
 

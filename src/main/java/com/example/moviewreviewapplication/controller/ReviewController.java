@@ -4,6 +4,7 @@ import com.example.moviewreviewapplication.dto.ReviewRequestDTO;
 import com.example.moviewreviewapplication.dto.ReviewResponseDTO;
 import com.example.moviewreviewapplication.entity.Review;
 import com.example.moviewreviewapplication.service.ReviewService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,9 @@ public class ReviewController {
     public ReviewResponseDTO getReview(@PathVariable Long id) {
         return reviewService.getReview(id);
     }
+
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ReviewResponseDTO createReview(@RequestBody ReviewRequestDTO dto) {
         return reviewService.createReview(dto);
     }
@@ -32,6 +35,7 @@ public class ReviewController {
         return reviewService.updateReview(id, dto);
     }
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteReview(@PathVariable Long id) {
         reviewService.deleteReview(id);
     }
