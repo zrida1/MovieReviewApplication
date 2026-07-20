@@ -4,6 +4,7 @@ import com.example.moviewreviewapplication.dto.ReviewRequestDTO;
 import com.example.moviewreviewapplication.dto.ReviewResponseDTO;
 import com.example.moviewreviewapplication.entity.Review;
 import com.example.moviewreviewapplication.service.ReviewService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,11 +28,11 @@ public class ReviewController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ReviewResponseDTO createReview(@RequestBody ReviewRequestDTO dto) {
+    public ReviewResponseDTO createReview(@Valid @RequestBody ReviewRequestDTO dto) {
         return reviewService.createReview(dto);
     }
     @PutMapping("/{id}")
-    public ReviewResponseDTO updateReview(@PathVariable Long id, @RequestBody ReviewRequestDTO dto) {
+    public ReviewResponseDTO updateReview(@PathVariable Long id, @Valid @RequestBody ReviewRequestDTO dto) {
         return reviewService.updateReview(id, dto);
     }
     @DeleteMapping("/{id}")

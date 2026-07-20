@@ -3,6 +3,7 @@ package com.example.moviewreviewapplication.controller;
 import com.example.moviewreviewapplication.dto.MovieRequestDTO;
 import com.example.moviewreviewapplication.dto.MovieResponseDTO;
 import com.example.moviewreviewapplication.service.MovieService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class MovieController {
     }
 
     @PutMapping("/{id}")
-    public MovieResponseDTO updateMovie(@PathVariable Long id, @RequestBody MovieRequestDTO movie) {
+    public MovieResponseDTO updateMovie(@PathVariable Long id, @Valid @RequestBody MovieRequestDTO movie) {
         return movieService.updateMovie(id, movie);
     }
 
@@ -40,7 +41,7 @@ public class MovieController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MovieResponseDTO createNewMovie(@RequestBody MovieRequestDTO movie) {
+    public MovieResponseDTO createNewMovie(@Valid @RequestBody MovieRequestDTO movie) {
         return movieService.createMovie(movie);
 
     }

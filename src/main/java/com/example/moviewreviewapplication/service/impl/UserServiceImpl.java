@@ -3,6 +3,7 @@ package com.example.moviewreviewapplication.service.impl;
 import com.example.moviewreviewapplication.dto.UserRequestDTO;
 import com.example.moviewreviewapplication.dto.UserResponseDTO;
 import com.example.moviewreviewapplication.entity.User;
+import com.example.moviewreviewapplication.exception.ResourceNotFoundException;
 import com.example.moviewreviewapplication.mapper.UserMapper;
 import com.example.moviewreviewapplication.repository.UserRepository;
 import com.example.moviewreviewapplication.service.UserService;
@@ -24,20 +25,24 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponseDTO(userRepository.findAll());
     }
     public UserResponseDTO getUser(Long id) {
-        return userMapper.toResponseDTO(userRepository.findById(id).orElseThrow());
+        return userMapper.toResponseDTO(userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("User not found with id: " + id)));
     }
 
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO){
         return userMapper.toResponseDTO(userRepository.save(userMapper.toEntity(userRequestDTO)));
     }
     public UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO){
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("User not found with id: " + id));
         user.setName(userRequestDTO.getName());
         user.setEmail(userRequestDTO.getEmail());
         user.setPassword(userRequestDTO.getPassword());
         return userMapper.toResponseDTO(userRepository.save(user));
     }
     public void deleteUser(Long id){
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found with id: " + id));
+
+        userRepository.delete(user);
     }
 }

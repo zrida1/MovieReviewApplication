@@ -3,6 +3,7 @@ package com.example.moviewreviewapplication.service.impl;
 import com.example.moviewreviewapplication.dto.MovieRequestDTO;
 import com.example.moviewreviewapplication.dto.MovieResponseDTO;
 import com.example.moviewreviewapplication.entity.Movie;
+import com.example.moviewreviewapplication.exception.ResourceNotFoundException;
 import com.example.moviewreviewapplication.mapper.MovieMapper;
 import com.example.moviewreviewapplication.repository.MovieRepository;
 import com.example.moviewreviewapplication.service.MovieService;
@@ -21,14 +22,14 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public MovieResponseDTO getMovieById(Long id) {
-        return movieMapper.toResponseDTO(movieRepository.findById(id).orElseThrow());
+        return movieMapper.toResponseDTO(movieRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Movie not found with id: " + id)));
     }
 
     public List<MovieResponseDTO> getAllMovies() {
         return movieMapper.toResponseDTOList(movieRepository.findAll());
     }
     public MovieResponseDTO updateMovie(Long id, MovieRequestDTO dto) {
-        Movie movie = movieRepository.findById(id).orElseThrow();
+        Movie movie = movieRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Movie not found with id: " + id));
         movie.setTitle(dto.getTitle());
         movie.setDescription(dto.getDescription());
         movie.setGenre(dto.getGenre());
@@ -39,7 +40,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public void deleteMovie(Long id) {
-        movieRepository.deleteById(id);
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Movie not found with id: " + id));
+
+        movieRepository.delete(movie);
     }
 
     public MovieResponseDTO createMovie(MovieRequestDTO dto){

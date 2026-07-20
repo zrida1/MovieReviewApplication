@@ -4,6 +4,7 @@ package com.example.moviewreviewapplication.controller;
 import com.example.moviewreviewapplication.dto.UserRequestDTO;
 import com.example.moviewreviewapplication.dto.UserResponseDTO;
 import com.example.moviewreviewapplication.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserResponseDTO updateUser(@PathVariable Long id, @RequestBody UserRequestDTO user) {
+    public UserResponseDTO updateUser(@PathVariable Long id, @Valid @RequestBody UserRequestDTO user) {
         return userService.updateUser(id, user);
     }
 
@@ -41,7 +42,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponseDTO createUser(@RequestBody UserRequestDTO user) {
+    public UserResponseDTO createUser(@Valid @RequestBody UserRequestDTO user) {
         return userService.createUser(user);
 
     }
