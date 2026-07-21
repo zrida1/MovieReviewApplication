@@ -20,3 +20,6 @@ API
 
 Swagger:
 http://localhost:8080/swagger-ui/index.html
+
+Import the Postman collection:
+MovieReviewApp.postman_collection.json
