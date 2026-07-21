@@ -5,6 +5,7 @@ import com.example.moviewreviewapplication.dto.UserRequestDTO;
 import com.example.moviewreviewapplication.dto.UserResponseDTO;
 import com.example.moviewreviewapplication.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,8 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponseDTO> getAllUsers() {
-        return userService.getAllUsers();
+    public Page<UserResponseDTO> getAllUsers(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "5") Integer size, @RequestParam(defaultValue = "name") String sortBy) {
+        return userService.getAllUsers(page, size, sortBy);
     }
 
     @GetMapping("/{id}")

@@ -5,6 +5,7 @@ import com.example.moviewreviewapplication.dto.ReviewResponseDTO;
 import com.example.moviewreviewapplication.entity.Review;
 import com.example.moviewreviewapplication.service.ReviewService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,8 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
     @GetMapping
-    public List<ReviewResponseDTO> getAllReviews() {
-        return reviewService.getAllReviews();
+    public Page<ReviewResponseDTO> getAllReviews(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "5") Integer size, @RequestParam(defaultValue = "rating") String sortBy) {
+        return reviewService.getAllReviews(page, size, sortBy);
     }
     @GetMapping("/{id}")
     public ReviewResponseDTO getReview(@PathVariable Long id) {

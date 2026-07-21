@@ -11,6 +11,10 @@ import com.example.moviewreviewapplication.repository.MovieRepository;
 import com.example.moviewreviewapplication.repository.ReviewRepository;
 import com.example.moviewreviewapplication.repository.UserRepository;
 import com.example.moviewreviewapplication.service.ReviewService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +32,9 @@ public class ReviewServiceImpl implements ReviewService {
         this.reviewMapper = reviewMapper;
     }
 
-    public List<ReviewResponseDTO> getAllReviews(){
-        return reviewMapper.toResponseDTOList(reviewRepository.findAll());
+    public Page<ReviewResponseDTO> getAllReviews(Integer page, Integer size, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        return reviewRepository.findAll(pageable).map(reviewMapper::toResponseDTO);
     }
 
     public ReviewResponseDTO getReview(Long id){

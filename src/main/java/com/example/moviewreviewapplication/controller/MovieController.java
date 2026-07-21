@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 @RestController
 @RequestMapping("/movies")
@@ -18,8 +19,8 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<MovieResponseDTO> getMovies() {
-        return movieService.getAllMovies();
+    public Page<MovieResponseDTO> getMovies(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "title") String sortBy) {
+        return movieService.getAllMovies(page, size, sortBy);
     }
 
     @GetMapping("/{id}")

@@ -7,6 +7,10 @@ import com.example.moviewreviewapplication.exception.ResourceNotFoundException;
 import com.example.moviewreviewapplication.mapper.MovieMapper;
 import com.example.moviewreviewapplication.repository.MovieRepository;
 import com.example.moviewreviewapplication.service.MovieService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +29,12 @@ public class MovieServiceImpl implements MovieService {
         return movieMapper.toResponseDTO(movieRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Movie not found with id: " + id)));
     }
 
-    public List<MovieResponseDTO> getAllMovies() {
-        return movieMapper.toResponseDTOList(movieRepository.findAll());
+    public Page<MovieResponseDTO> getAllMovies(int page, int size, String sortBy) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending()
+        );
+
+        return movieRepository.findAll(pageable).map(movieMapper::toResponseDTO);
     }
     public MovieResponseDTO updateMovie(Long id, MovieRequestDTO dto) {
         Movie movie = movieRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Movie not found with id: " + id));
